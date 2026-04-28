@@ -6,62 +6,242 @@
   <title>AI in Life Sciences Quiz</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f2f4f7;
+      --card-bg: #ffffff;
+      --accent: #1a56c4;
+      --accent-light: rgba(26, 86, 196, 0.07);
+      --accent-hover: #1446a8;
+      --text-primary: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e6ed;
+      --border-accent: rgba(26, 86, 196, 0.18);
+      --meta-bg: #f8f9fb;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -30%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(26,86,196,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .card {
+      position: relative;
+      max-width: 780px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4rem 4.5rem;
+      overflow: hidden;
+      animation: fadeUp 0.6s cubic-bezier(0.22,1,0.36,1) both;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.07);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent) 0%, #4a8fe8 65%, #1fbcaa 100%);
+      border-radius: 20px 20px 0 0;
+    }
+
+    .eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      animation: fadeUp 0.6s 0.08s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .eyebrow span {
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.6rem, 5vw, 3.75rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: 1.2rem;
+      letter-spacing: -0.01em;
+      animation: fadeUp 0.6s 0.13s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin-bottom: 2.6rem;
+      animation: fadeUp 0.6s 0.18s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .meta-grid {
+      display: flex;
+      margin-bottom: 2.6rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      animation: fadeUp 0.6s 0.23s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .meta-item {
+      flex: 1;
+      padding: 1.1rem 1.4rem;
+      background: var(--meta-bg);
+      transition: background 0.2s;
+    }
+    .meta-item:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
+    .meta-item:hover {
+      background: var(--accent-light);
+    }
+    .meta-item strong {
+      display: block;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .meta-item span {
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      animation: fadeUp 0.6s 0.28s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      border-radius: 9px;
+      padding: 0.78rem 1.7rem;
+      transition: all 0.18s cubic-bezier(0.22,1,0.36,1);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn.primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(26,86,196,0.28);
+    }
+    .btn.primary:active { transform: translateY(0); }
+    .btn.primary::after {
+      content: '→';
+      font-size: 1rem;
+      transition: transform 0.18s;
+    }
+    .btn.primary:hover::after { transform: translateX(3px); }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .btn.secondary:hover {
+      color: var(--accent);
+      border-color: var(--border-accent);
+      background: var(--accent-light);
+      transform: translateY(-1px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .card { padding: 2.4rem 1.8rem; }
+      .meta-grid { flex-direction: column; }
+      .meta-item:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
 </head>
-
 <body>
-  <main class="page">
-    <section class="hero-card">
-      <div class="content">
-        <p class="eyebrow">AI in Life Sciences • A COP Initiative</p>
+  <main class="card">
+    <p class="eyebrow"><span></span>AI in Life Sciences &nbsp;·&nbsp; A COP Initiative</p>
+    <h1>Quick Check on AI<br>in Life Sciences</h1>
+    <p class="subtitle">
+      A short, self-paced quiz designed to test practical awareness of AI use cases across drug discovery, clinical operations, commercial strategy, and healthcare innovation.
+    </p>
 
-        <h1>Quick Check on AI in Life Sciences</h1>
-
-        <p class="subtitle">
-          A short, self-paced quiz designed to test practical awareness of AI use cases
-          across drug discovery, clinical operations, commercial strategy, and healthcare innovation.
-        </p>
-
-        <div class="meta-grid">
-          <div>
-            <strong>25</strong>
-            <span>Questions</span>
-          </div>
-          <div>
-            <strong>10–12</strong>
-            <span>Minutes</span>
-          </div>
-          <div>
-            <strong>Self-paced</strong>
-            <span>Format</span>
-          </div>
-        </div>
-
-        <div class="actions">
-          <a class="btn primary" href="https://forms.office.com/r/WmMHqAFCjD" target="_blank">
-            Start Quiz
-          </a>
-          <a class="btn secondary" href="results.html">
-            View Leaderboard
-          </a>
-        </div>
+    <div class="meta-grid">
+      <div class="meta-item">
+        <strong>25</strong>
+        <span>Questions</span>
       </div>
+      <div class="meta-item">
+        <strong>10–12</strong>
+        <span>Minutes</span>
+      </div>
+      <div class="meta-item">
+        <strong>Self-paced</strong>
+        <span>Format</span>
+      </div>
+    </div>
 
-      <aside class="side-panel">
-        <h2>What to expect</h2>
-        <ul>
-          <li>Real-world AI applications</li>
-          <li>Scenario-based decision questions</li>
-          <li>Governance and risk awareness</li>
-          <li>Current developments in life sciences</li>
-        </ul>
-
-        <div class="note">
-          Complete the quiz in one sitting for the best experience.
-        </div>
-      </aside>
-    </section>
+    <div class="actions">
+      <a class="btn primary" href="https://forms.office.com/r/WmMHqAFCjD" target="_blank">Start Quiz</a>
+      <a class="btn secondary" href="results.html">View Leaderboard</a>
+    </div>
   </main>
 </body>
 </html>
